@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2020-08-10T21:01:00Z"
+  labels:
+    run: frontend
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:run: {}
+      f:spec:
+        f:containers:
+          k:{"name":"frontend"}:
+            .: {}
+            f:args: {}
+            f:image: {}
+            f:imagePullPolicy: {}
+            f:name: {}
+            f:resources: {}
+            f:terminationMessagePath: {}
+            f:terminationMessagePolicy: {}
+        f:dnsPolicy: {}
+        f:enableServiceLinks: {}
+        f:restartPolicy: {}
+        f:schedulerName: {}
+        f:securityContext: {}
+        f:terminationGracePeriodSeconds: {}
+    manager: kubectl
+    operation: Update
+    time: "2020-08-10T21:01:00Z"
+  name: frontend
+  namespace: default
+  resourceVersion: "15280"
+  selfLink: /api/v1/namespaces/default/pods/frontend
+  uid: 063b1f98-1abf-4613-8361-1a3ff11ed453
+spec:
+  containers:
+  - args:
+    - —dry-run
+    image: sybertuk/hipster-demo:latest
+    imagePullPolicy: Always
+    name: frontend
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-vftng
+      readOnly: true
+    env:
+      - name: PORT
+        value: "8080"
+      - name: PRODUCT_CATALOG_SERVICE_ADDR
+        value: "productcatalogservice:3550"
+      - name: CURRENCY_SERVICE_ADDR
+        value: "currencyservice:7000"
+      - name: CART_SERVICE_ADDR
+        value: "cartservice:7070"
+      - name: RECOMMENDATION_SERVICE_ADDR
+        value: "recommendationservice:8080"
+      - name: SHIPPING_SERVICE_ADDR
+        value: "shippingservice:50051"
+      - name: CHECKOUT_SERVICE_ADDR
+        value: "checkoutservice:5050"
+      - name: AD_SERVICE_ADDR
+        value: "adservice:9555"
+      - name: ENV_PLATFORM
+        value: "gcp"
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  priority: 0
+  restartPolicy: Never
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: default-token-vftng
+    secret:
+      defaultMode: 420
+      secretName: default-token-vftng
+

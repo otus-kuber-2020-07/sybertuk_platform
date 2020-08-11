@@ -3,10 +3,7 @@ kind: Pod
 metadata:
   labels:
     run: frontend
-    manager: kubectl
-    operation: Update
   name: frontend
-  namespace: default
 spec:
   containers:
   - args:

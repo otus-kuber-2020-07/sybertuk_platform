@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-prod
+  namespace: canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-prod
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 100%
+  template:
+    metadata:
+      name: web-prod # Название Pod
+      labels: # Метки в формате key: value
+        app: web-prod
+    spec: # Описание Pod
+      containers: # Описание контейнеров внутри Pod
+        - name: web-prod # Название контейнера
+          image: sybertuk/hw1-web # Образ из которого создается контейнер
+          readinessProbe: # Добавим проверку готовности
+            httpGet: # веб-сервера отдавать
+              path: /index.html # контент
+              port: 8000
+          livenessProbe:
+            tcpSocket:
+              port: 8000
+          volumeMounts:
+            - name: app
+              mountPath: /app
+      initContainers:
+        - name: init-web
+          image: busybox:latest
+          command: ['sh', '-c', 'wget -O- https://tinyurl.com/otus-k8s-intro | sh']
+          volumeMounts:
+            - name: app
+              mountPath: /app
+      volumes:
+        - name: app
+          emptyDir: {}

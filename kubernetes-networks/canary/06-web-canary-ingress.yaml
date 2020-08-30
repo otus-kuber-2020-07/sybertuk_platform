@@ -8,7 +8,6 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/canary: "true"
     nginx.ingress.kubernetes.io/canary-by-header: "canary"
-    nginx.ingress.kubernetes.io/canary-by-header-value: "true"
 spec:
   rules:
   - host: canary.example.com

@@ -1,0 +1,9 @@
+redis:
+  usePassword: false
+  redisServiceName: redis-master
+  fullnameOverride: redis
+  redisPort: 6379
+  cluster:
+    enabled: false
+    slaveCount: 0
+    replicas: 0

@@ -1,0 +1,21 @@
+repositories:
+  - name: jetstack
+    url: https://charts.jetstack.io
+
+helmDefaults:
+  verify: false
+  wait: true
+  historyMax: 3
+  recreatePods: true
+  force: true
+  atomic: true
+  cleanupOnFail: true
+
+releases:
+  - name: cert-manager
+    version: 0.16.1
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    set:
+      - name: installCRDs
+        value: true

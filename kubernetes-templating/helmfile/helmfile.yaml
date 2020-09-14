@@ -1,0 +1,40 @@
+repositories:
+  - name: stable
+    url: https://kubernetes-charts.storage.googleapis.com
+  - name: harbor
+    url: https://helm.goharbor.io
+  - name: incubator
+    url:  https://kubernetes-charts-incubator.storage.googleapis.com
+
+helmDefaults:
+  verify: false
+  wait: true
+  historyMax: 3
+  recreatePods: true
+  force: true
+  atomic: true
+  cleanupOnFail: true
+
+helmfiles:
+- path: cert-manager.helmfile.yaml
+
+releases:
+  - name: nginx-ingress
+    version: 1.41.3
+    namespace: nginx-ingress
+    chart: stable/nginx-ingress
+  
+  - name: cert-issuer
+    namespace: cert-manager
+    chart: incubator/raw
+    values:
+      - ./values/clusterissuer.yaml
+
+  - name: harbor
+    needs:
+      - cert-manager/cert-issuer
+    namespace: harbor
+    chart: harbor/harbor
+    version: 1.1.2
+    values:
+      - ./values/harbor.yaml
